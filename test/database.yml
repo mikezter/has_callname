@@ -1,0 +1,8 @@
+sqlite:
+  :adapter: sqlite
+  :dbfile: vendor/plugins/has_callname/test/has_callname_plugin.sqlite.db
+
+sqlite3:
+  :adapter: sqlite3
+  :dbfile: vendor/plugins/has_callname/test/has_callname_plugin.sqlite3.db
+
