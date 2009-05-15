@@ -1,13 +1,21 @@
 HasCallname
 ===========
 
-Introduction goes here.
+Ultra Simple!
+Generates a callname slug out of a given string attribute. 
+Adds finder which raise RecordNotFound or returns one Instance. 
+Takes care of unique callnames.
 
 
 Example
 =======
 
-Example goes here.
+has_callname # expects :name => :name, :callname => :callname
+has_callname :name => :product_name, :callname => :product_url_slug
+has_callname :slug # same as :name => :slug, :callname => :slug
+has_callname :gsubs => {'foo' => 'bar'}, :filters => 'sex'
+has_callname :prefix => 'cool-', :suffix => '-of-the-year'
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+
+Copyright (c) 2009 mikezter, released under the MIT license
