@@ -103,12 +103,15 @@ module HasCallname
     def create_callname cn
       cn = cn.dup
       cn.downcase!
-      self.additional_gsubs.each  {|k, v| cn.gsub!("#{k}", v)}
-      self.additional_filters.each {|w| cn.gsub!("#{w}", '')}
-      cn.gsub!(/[Ää]+/i,'ae') 
-      cn.gsub!(/[Üü]+/i,'ue') 
-      cn.gsub!(/[Öö]+/i,'oe') 
-      cn.gsub!('ß','ss')
+      self.additional_gsubs.each  {|k, v| cn.gsub!(k, v)}
+      self.additional_filters.each {|w| cn.gsub!(w, '')}
+      cn.gsub!(/\303\244/, 'ae') 
+      cn.gsub!(/\303\204/, 'ae') 
+      cn.gsub!(/\303\226/, 'oe') 
+      cn.gsub!(/\303\266/, 'oe') 
+      cn.gsub!(/\303\234/, 'ue') 
+      cn.gsub!(/\303\274/, 'ue') 
+      cn.gsub!(/\303\237/, 'ss')
       cn.gsub!(/[^a-z0-9]+/i, '-')
       cn.gsub!(/(^[-]+|[-]+$)/, '')
       return "#{self.prefix}#{cn}#{self.suffix}"

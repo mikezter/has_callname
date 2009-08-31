@@ -1,7 +1,7 @@
-require 'test_helper'
+require File.join(File.dirname(__FILE__), 'test_helper')
 
 class Thing < ActiveRecord::Base
-  has_callname :filters => 'muh'
+  has_callname :filters => ['muh', /gmbh\Z/ ]
   def before_create
     self.something='it is!'
   end
@@ -55,13 +55,19 @@ class HasCallnameTest < ActiveSupport::TestCase
   
   test "replaces umlauts correct" do
     thing = Thing.create!(:name => 'This has Umlauts: äöü and uppercase ÄÖÜ and beißt')
-    assert_equal 'this-has-umlauts-aeoeue-and-uppercase-aeoeue-and-beisst', thing.callname
+    assert_equal 'this-has-umlauts-aeoeue-and-uppercase-aeoeue-and-beisst', thing.callname, thing.name
   end
   
   test "filters additional filters" do
     thing = Thing.create!(:name => 'This muh will be filtered')
     assert !thing.callname.include?('muh')
     assert_equal 'this-will-be-filtered', thing.callname
+  end
+  
+  test "filters additional regex filters" do
+    thing = Thing.create!(:name => 'gmbh at the beginning is ok GmbH')
+    assert !thing.callname.include?('GmbH')
+    assert_equal 'gmbh-at-the-beginning-is-ok', thing.callname
   end
   
   test "name is not altered" do

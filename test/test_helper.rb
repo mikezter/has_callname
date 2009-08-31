@@ -7,7 +7,7 @@ require 'active_support/test_case'
 require File.dirname(__FILE__) + '/../lib/has_callname'
 require 'active_record'
 require 'test/unit' 
-require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb')) 
+#require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb')) 
 
 def load_schema 
   config = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))  
@@ -32,5 +32,7 @@ def load_schema
   ActiveRecord::Base.establish_connection(config[db_adapter])  
   load(File.dirname(__FILE__) + "/schema.rb")  
 end
+
+ActiveRecord::Base.send :include, HasCallname  
 
 load_schema
