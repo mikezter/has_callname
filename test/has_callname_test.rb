@@ -14,14 +14,36 @@ end
 
 class Foo < ActiveRecord::Base
   set_table_name "things"
+  # uses only one column
   has_callname :name
 end
 
+class Bar < ActiveRecord::Base
+  set_table_name "things"
+  has_callname :prefix => 'cool-', :suffix => '-of-the-year'
+end
 
 
 class HasCallnameTest < ActiveSupport::TestCase
+  def setup
+    Thing.delete_all
+  end
+
   test "extends ActiveRecord with Class Method has_callname" do
     assert ActiveRecord::Base.respond_to?( 'has_callname')
+  end
+  
+  test "can save self" do
+    thing = Foo.create(:name => 'My first Thing')
+    assert thing.save, "Couldn't save #{thing}"
+  end
+  
+  test "callname is generated before save if blank" do
+    thing = Thing.create!(:name => 'Thing')
+    assert_equal 'thing', thing.callname
+    thing.callname = ''
+    assert thing.save
+    assert_equal 'thing-2', thing.callname
   end
   
   test "callname is generated before_create" do
@@ -101,6 +123,14 @@ class HasCallnameTest < ActiveSupport::TestCase
     assert_equal 'name-with-spaces-and-uemlaeutss', foo.name
     foo = Foo.create!(:name => 'Name with spaces and Ümläutß')
     assert_equal 'name-with-spaces-and-uemlaeutss-2', foo.name
+  end
+  
+  test "numbers at the end" do
+    bar = Bar.new(:name => 'bar')
+    bar.save
+    bar = Bar.new(:name => 'bar')
+    bar.save
+    assert_equal 'cool-bar-of-the-year-2', bar.callname
   end
   
 end

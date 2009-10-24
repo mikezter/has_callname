@@ -4,7 +4,7 @@ HasCallname
 Ultra Simple!
 Generates a callname slug out of a given string attribute. 
 Adds finder which raise RecordNotFound or returns one Instance. 
-Takes care of unique callnames.
+Takes care of unique callnames by adding numbers as needed.
 
 
 Example
@@ -18,4 +18,4 @@ has_callname :prefix => 'cool-', :suffix => '-of-the-year'
 
 
 
-Copyright (c) 2009 mikezter, released under the MIT license
+Copyright (c) 2009 Michael Strüder, released under the MIT license
